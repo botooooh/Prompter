@@ -17,7 +17,10 @@ export function Editor({ text, setText, onStart, theme, toggleTheme }) {
   return (
     <div className="editor-container">
       <div className="editor-header">
-        <h1>Prompteur</h1>
+        <div className="brand">
+          <img src="/logo.png" alt="Prompteur Logo" className="logo" />
+          <h1>Prompteur</h1>
+        </div>
         <div className="editor-actions">
           <label className="import-btn glass-panel">
             Importer TXT

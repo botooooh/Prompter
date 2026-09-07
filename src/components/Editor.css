@@ -20,6 +20,18 @@
   letter-spacing: -0.5px;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
 .editor-actions {
   display: flex;
   gap: 16px;
