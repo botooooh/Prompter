@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play } from 'lucide-react';
+import { Play, Moon, Sun } from 'lucide-react';
 
-export function Editor({ text, setText, onStart }) {
+export function Editor({ text, setText, onStart, theme, toggleTheme }) {
   const handleImport = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -23,6 +23,9 @@ export function Editor({ text, setText, onStart }) {
             Importer TXT
             <input type="file" accept=".txt" onChange={handleImport} hidden />
           </label>
+          <button className="theme-btn glass-panel" onClick={toggleTheme} title="Basculer le thème">
+            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
           <button className="start-btn glass-panel" onClick={onStart} disabled={!text.trim()}>
             <Play size={20} />
             Démarrer
