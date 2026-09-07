@@ -44,6 +44,26 @@ body {
 }
 
 /* Glassmorphism utility */
+.install-btn {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-button);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  border: var(--glass-border);
+}
+
+.install-btn:hover {
+  transform: translateY(-2px);
+}
+
 .glass-panel {
   background: var(--surface-color);
   backdrop-filter: var(--glass-blur);
