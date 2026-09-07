@@ -18,7 +18,7 @@ export function Editor({ text, setText, onStart, theme, toggleTheme }) {
     <div className="editor-container">
       <div className="editor-header">
         <div className="brand">
-          <img src="/logo.png" alt="Prompteur Logo" className="logo" />
+          <img src="/logo-arrondi.png" alt="Prompteur Logo" className="logo" />
           <h1>Prompteur</h1>
         </div>
         <div className="editor-actions">
