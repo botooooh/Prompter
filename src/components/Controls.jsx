@@ -40,12 +40,17 @@ export function Controls({
   };
 
   return (
-    <div className="controls-container">
-      {/* Expandable Settings (Floating bubble) */}
+    <div className={`controls-container glass-panel ${showSettings ? 'expanded' : ''}`}>
+      {/* Expandable Settings */}
       {showSettings && (
-        <div className="controls-settings glass-panel">
+        <div className="controls-settings">
+          <div className="settings-handle" onClick={() => setShowSettings(false)}></div>
+          
           <div className="setting-group">
-            <label>Vitesse ({speed} px/s)</label>
+            <div className="setting-header">
+              <label>Vitesse</label>
+              <span className="setting-value">{speed} px/s</span>
+            </div>
             <input 
               type="range" 
               min="10" 
@@ -56,7 +61,10 @@ export function Controls({
           </div>
           
           <div className="setting-group">
-            <label>Taille du texte ({fontSize}px)</label>
+            <div className="setting-header">
+              <label>Tailles</label>
+              <span className="setting-value">{fontSize} px</span>
+            </div>
             <input 
               type="range" 
               min="24" 
@@ -67,7 +75,10 @@ export function Controls({
           </div>
 
           <div className="setting-group">
-            <label>Marges ({margins}vw)</label>
+            <div className="setting-header">
+              <label>Marges</label>
+              <span className="setting-value">{margins} vw</span>
+            </div>
             <input 
               type="range" 
               min="5" 
@@ -78,28 +89,33 @@ export function Controls({
           </div>
 
           <div className="setting-toggles">
-            <button className={`toggle-btn ${mirrorX ? 'active' : ''}`} onClick={() => setMirrorX(!mirrorX)}>
-              <FlipHorizontal size={20} />
-            </button>
-            <button className={`toggle-btn ${mirrorY ? 'active' : ''}`} onClick={() => setMirrorY(!mirrorY)}>
-              <FlipVertical size={20} />
-            </button>
-            <button className={`toggle-btn ${alignment === 'left' ? 'active' : ''}`} onClick={() => setAlignment('left')}>
-              <AlignLeft size={20} />
-            </button>
-            <button className={`toggle-btn ${alignment === 'center' ? 'active' : ''}`} onClick={() => setAlignment('center')}>
-              <AlignCenter size={20} />
-            </button>
-            <label className="checkbox-label">
-              <input type="checkbox" checked={showGuide} onChange={(e) => setShowGuide(e.target.checked)} />
+            <div className="toggle-group">
+              <button className={`toggle-btn ${alignment === 'left' ? 'active' : ''}`} onClick={() => setAlignment('left')}>
+                <AlignLeft size={18} />
+              </button>
+              <button className={`toggle-btn ${alignment === 'center' ? 'active' : ''}`} onClick={() => setAlignment('center')}>
+                <AlignCenter size={18} />
+              </button>
+            </div>
+            
+            <div className="toggle-group">
+              <button className={`toggle-btn ${mirrorX ? 'active' : ''}`} onClick={() => setMirrorX(!mirrorX)}>
+                <FlipHorizontal size={18} />
+              </button>
+              <button className={`toggle-btn ${mirrorY ? 'active' : ''}`} onClick={() => setMirrorY(!mirrorY)}>
+                <FlipVertical size={18} />
+              </button>
+            </div>
+            
+            <button className={`repere-btn ${showGuide ? 'active' : ''}`} onClick={() => setShowGuide(!showGuide)}>
               Repère
-            </label>
+            </button>
           </div>
         </div>
       )}
 
       {/* Main Pill Bar */}
-      <div className="controls-main glass-panel">
+      <div className="controls-main">
         <button className="play-btn" onClick={onPlayPause} title="Lecture/Pause (Espace)">
           {isPlaying ? <Pause size={20} /> : <Play size={20} fill="currentColor" />}
           <span>{isPlaying ? "Pause" : "Démarrer"}</span>
