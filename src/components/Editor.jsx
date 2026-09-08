@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, ThemeDark, ThemeLight, Download, Trash2, Upload } from './Icons';
+import { Play, Moon, Sun, Download, Trash2, Upload } from 'lucide-react';
 
 export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
   const handleImport = (e) => {
@@ -23,7 +23,7 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
         </div>
         <div className="editor-actions">
           <button className="theme-btn" onClick={toggleTheme} title="Basculer le thème">
-            {theme === 'dark' ? <ThemeLight size={24} /> : <ThemeDark size={24} />}
+            {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
           </button>
           
           <label className="import-btn">

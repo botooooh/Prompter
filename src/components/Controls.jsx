@@ -1,6 +1,6 @@
 import React from 'react';
 import './Controls.css';
-import { Play, Pause, ArrowLeft, Settings2, Swap, Document, Category } from './Icons';
+import { Play, Pause, ArrowLeft, Settings2, FlipHorizontal, FlipVertical, AlignLeft, AlignCenter } from 'lucide-react';
 
 export function Controls({
   onBack,
@@ -83,18 +83,18 @@ export function Controls({
 
           <div className="setting-toggles">
             <button className={`toggle-btn ${mirrorX ? 'active' : ''}`} onClick={() => setMirrorX(!mirrorX)}>
-              <Swap size={20} />
+              <FlipHorizontal size={20} />
               Miroir H
             </button>
             <button className={`toggle-btn ${mirrorY ? 'active' : ''}`} onClick={() => setMirrorY(!mirrorY)}>
-              <Swap size={20} style={{ transform: 'rotate(90deg)' }} />
+              <FlipVertical size={20} />
               Miroir V
             </button>
             <button className={`toggle-btn ${alignment === 'left' ? 'active' : ''}`} onClick={() => setAlignment('left')}>
-              <Document size={20} />
+              <AlignLeft size={20} />
             </button>
             <button className={`toggle-btn ${alignment === 'center' ? 'active' : ''}`} onClick={() => setAlignment('center')}>
-              <Category size={20} />
+              <AlignCenter size={20} />
             </button>
             <label className="checkbox-label">
               <input type="checkbox" checked={showGuide} onChange={(e) => setShowGuide(e.target.checked)} />
