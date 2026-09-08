@@ -11,8 +11,9 @@ function App() {
   const [mode, setMode] = useState('editor'); // 'editor' | 'prompter'
   const [theme, setTheme] = useLocalStorage('prompteur-theme', 'dark');
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showSplash, setShowSplash] = useState(true);
-  const [appReady, setAppReady] = useState(false);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const [showSplash, setShowSplash] = useState(isMobile);
+  const [appReady, setAppReady] = useState(!isMobile);
 
   const handleSplashComplete = () => {
     setAppReady(true);
@@ -75,10 +76,6 @@ function App() {
         {mode === 'editor' ? (
           <Editor 
             text={text} 
-          setText={setText} 
-          onStart={() => setMode('prompter')}
-          theme={theme}
-          toggleTheme={toggleTheme}
             setText={setText} 
             onStart={() => setMode('prompter')}
             theme={theme}
