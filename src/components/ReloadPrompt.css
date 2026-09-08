@@ -1,0 +1,77 @@
+.reload-prompt-container {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-radius: var(--border-radius-card);
+  gap: 16px;
+  animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  min-width: 320px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.reload-prompt-message {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reload-prompt-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.reload-prompt-desc {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.reload-prompt-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.reload-prompt-btn {
+  padding: 10px 16px;
+  border-radius: var(--border-radius-button);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reload-prompt-update {
+  background: var(--primary-color);
+  color: white;
+}
+
+.reload-prompt-update:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.reload-prompt-close {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.reload-prompt-close:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 40px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
