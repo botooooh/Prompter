@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './ReloadPrompt.css';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 
@@ -15,6 +15,22 @@ export function ReloadPrompt() {
       console.log('SW registration error', error);
     },
   });
+
+  const [updateMessage, setUpdateMessage] = useState("Faites la mise à jour pour bénéficier des nouvelles fonctionnalités.");
+
+  useEffect(() => {
+    if (needRefresh) {
+      // Fetch changelog.json to display dynamic update message
+      fetch(`/changelog.json?t=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.message) {
+            setUpdateMessage(data.message);
+          }
+        })
+        .catch(err => console.error("Erreur de récupération du changelog", err));
+    }
+  }, [needRefresh]);
 
   const close = () => {
     setOfflineReady(false);
@@ -36,7 +52,7 @@ export function ReloadPrompt() {
         <span className="reload-prompt-desc">
           {offlineReady
             ? "L'application peut maintenant être utilisée sans internet."
-            : "Faites la mise à jour pour bénéficier des nouvelles fonctionnalités."}
+            : updateMessage}
         </span>
       </div>
       
