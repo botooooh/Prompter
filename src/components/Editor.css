@@ -82,7 +82,7 @@
   position: relative;
 }
 
-.clear-btn {
+.clear-btn, .paste-btn {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -93,15 +93,28 @@
   height: 40px;
   border-radius: var(--border-radius-button);
   background: var(--surface-color);
-  color: #ff3b30;
   border: var(--glass-border);
   cursor: pointer;
   transition: all 0.2s ease;
   z-index: 10;
 }
 
+.clear-btn {
+  color: #ff3b30;
+}
+
+.paste-btn {
+  color: var(--text-secondary);
+}
+
 .clear-btn:hover {
   background: rgba(255, 59, 48, 0.1);
+  transform: translateY(-2px);
+}
+
+.paste-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
   transform: translateY(-2px);
 }
 

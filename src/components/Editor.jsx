@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, Moon, Sun, Download, Trash2, Upload } from 'lucide-react';
+import { Play, Moon, Sun, Download, Trash2, Upload, Clipboard } from 'lucide-react';
 
 export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
   const handleImport = (e) => {
@@ -11,6 +11,17 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
         setText(e.target.result);
       };
       reader.readAsText(file);
+    }
+  };
+
+  const handlePaste = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      if (clipboardText) {
+        setText(clipboardText);
+      }
+    } catch (err) {
+      console.error('Failed to read clipboard contents: ', err);
     }
   };
 
@@ -39,13 +50,21 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
         </div>
       </div>
       <div className="editor-body glass-panel">
-        {text && (
+        {text ? (
           <button 
             className="clear-btn" 
             onClick={() => setText('')}
             title="Effacer tout le texte"
           >
             <Trash2 size={20} />
+          </button>
+        ) : (
+          <button 
+            className="paste-btn" 
+            onClick={handlePaste}
+            title="Coller depuis le presse-papiers"
+          >
+            <Clipboard size={20} />
           </button>
         )}
         <textarea 
