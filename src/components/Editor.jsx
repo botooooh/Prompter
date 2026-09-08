@@ -1,8 +1,37 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, Moon, Sun, Download, Trash2, Upload, Clipboard } from 'lucide-react';
+import { Play, Moon, Sun, Download, Trash2, Upload, Clipboard, Bold, Highlighter, Camera } from 'lucide-react';
+import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/extension-bubble-menu';
+import StarterKit from '@tiptap/starter-kit';
+import Highlight from '@tiptap/extension-highlight';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
 
-export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
+export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall, useCamera, setUseCamera }) {
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
+    ],
+    content: text || '',
+    onUpdate: ({ editor }) => {
+      setText(editor.getHTML());
+    },
+    editorProps: {
+      attributes: {
+        class: 'editor-textarea tiptap-editor',
+        placeholder: "Saisissez ou collez votre texte ici...",
+      },
+    },
+  });
+
+  const handleClear = () => {
+    setText('');
+    editor?.commands.setContent('');
+  };
   const handleImport = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -19,6 +48,7 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
       const clipboardText = await navigator.clipboard.readText();
       if (clipboardText) {
         setText(clipboardText);
+        editor?.commands.setContent(clipboardText);
       }
     } catch (err) {
       console.error('Failed to read clipboard contents: ', err);
@@ -43,17 +73,25 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
             <input type="file" accept=".txt" onChange={handleImport} hidden />
           </label>
           
-          <button className="start-btn" onClick={onStart} disabled={!text.trim()}>
+          <button 
+            className={`camera-toggle-btn ${useCamera ? 'active' : ''}`} 
+            onClick={() => setUseCamera(!useCamera)}
+            title="Enregistrer avec la caméra"
+          >
+            <Camera size={20} />
+          </button>
+
+          <button className="start-btn" onClick={onStart} disabled={!text || text === '<p></p>'} title="Démarrer le prompteur">
             <Play size={20} />
             Démarrer
           </button>
         </div>
       </div>
       <div className="editor-body glass-panel">
-        {text ? (
+        {text && text !== '<p></p>' ? (
           <button 
             className="clear-btn" 
-            onClick={() => setText('')}
+            onClick={handleClear}
             title="Effacer tout le texte"
           >
             <Trash2 size={20} />
@@ -67,12 +105,36 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
             <Clipboard size={20} />
           </button>
         )}
-        <textarea 
-          value={text} 
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Saisissez ou collez votre texte ici..."
-          className="editor-textarea"
-        />
+        
+        {editor && (
+          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="bubble-menu glass-panel">
+            <button
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              className={editor.isActive('bold') ? 'is-active' : ''}
+              title="Gras"
+            >
+              <Bold size={18} />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHighlight({ color: '#ffcc00' }).run()}
+              className={editor.isActive('highlight', { color: '#ffcc00' }) ? 'is-active' : ''}
+              style={{ color: '#ffcc00' }}
+              title="Surligner en jaune"
+            >
+              <Highlighter size={18} />
+            </button>
+            <button
+              onClick={() => editor.chain().focus().toggleHighlight({ color: '#ff4444' }).run()}
+              className={editor.isActive('highlight', { color: '#ff4444' }) ? 'is-active' : ''}
+              style={{ color: '#ff4444' }}
+              title="Surligner en rouge"
+            >
+              <Highlighter size={18} />
+            </button>
+          </BubbleMenu>
+        )}
+        
+        <EditorContent editor={editor} className="editor-content-wrapper" />
       </div>
     </div>
   );

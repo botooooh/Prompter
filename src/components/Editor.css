@@ -40,6 +40,29 @@
   width: 100%;
 }
 
+.camera-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--border-radius-button);
+  background: var(--surface-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.camera-toggle-btn:hover {
+  transform: translateY(-2px);
+}
+
+.camera-toggle-btn.active {
+  background: #ff4444;
+  color: white;
+}
+
 .import-btn, .start-btn {
   display: flex;
   align-items: center;
@@ -118,23 +141,68 @@
   transform: translateY(-2px);
 }
 
-.editor-textarea {
+.editor-content-wrapper {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+}
+
+.tiptap-editor {
+  width: 100%;
+  min-height: 100%;
   padding: 24px;
   font-size: 1.1rem;
   line-height: 1.6;
   border: none;
   background: transparent;
   color: var(--text-primary);
-  resize: none;
   outline: none;
   font-family: inherit;
   letter-spacing: normal;
 }
 
-.editor-textarea::placeholder {
+.tiptap-editor p.is-editor-empty:first-child::before {
   color: var(--text-secondary);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap-editor mark {
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.bubble-menu {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--surface-color);
+  border: var(--glass-border);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.bubble-menu button {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.bubble-menu button:hover {
+  background: rgba(128,128,128,0.2);
+}
+
+.bubble-menu button.is-active {
+  background: rgba(128,128,128,0.3);
 }
 
 .theme-btn {

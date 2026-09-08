@@ -15,6 +15,7 @@ function App() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
   const [showSplash, setShowSplash] = useState(isMobile);
   const [appReady, setAppReady] = useState(!isMobile);
+  const [useCamera, setUseCamera] = useLocalStorage('prompteur-camera', false);
   const [hasDismissedInstallPopup, setHasDismissedInstallPopup] = useLocalStorage('prompteur-install-popup-dismissed', false);
 
   const handleSplashComplete = () => {
@@ -86,11 +87,14 @@ function App() {
             toggleTheme={toggleTheme}
             showInstallBtn={showInstallBtn}
             onInstall={handleInstallClick}
+            useCamera={useCamera}
+            setUseCamera={setUseCamera}
           />
         ) : (
           <Prompter 
             text={text} 
             onBack={() => setMode('editor')}          
+            useCamera={useCamera}
           />
         )}
       </div>
