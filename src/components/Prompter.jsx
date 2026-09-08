@@ -31,6 +31,12 @@ export function Prompter({ text, onBack, useCamera }) {
   useEffect(() => {
     let stream = null;
     if (useCamera) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Votre navigateur ne supporte pas l'accès à la caméra.");
+        setIsRecording(false);
+        return;
+      }
+
       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: true })
         .then(s => {
           stream = s;
@@ -38,28 +44,30 @@ export function Prompter({ text, onBack, useCamera }) {
             videoRef.current.srcObject = stream;
           }
           
-          const recorder = new MediaRecorder(stream);
-          recorder.ondataavailable = (e) => {
-            if (e.data.size > 0) chunksRef.current.push(e.data);
-          };
-          
-          recorder.onstop = () => {
-            const mime = recorder.mimeType || 'video/webm';
-            const blob = new Blob(chunksRef.current, { type: mime });
-            const ext = mime.includes('mp4') ? 'mp4' : 'webm';
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = `Prompteur_Video_${Date.now()}.${ext}`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            chunksRef.current = [];
-            setIsRecording(false);
-          };
-          
-          mediaRecorderRef.current = recorder;
+          if (typeof MediaRecorder !== 'undefined') {
+            const recorder = new MediaRecorder(stream);
+            recorder.ondataavailable = (e) => {
+              if (e.data.size > 0) chunksRef.current.push(e.data);
+            };
+            
+            recorder.onstop = () => {
+              const mime = recorder.mimeType || 'video/webm';
+              const blob = new Blob(chunksRef.current, { type: mime });
+              const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.style.display = 'none';
+              a.href = url;
+              a.download = `Prompteur_Video_${Date.now()}.${ext}`;
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              chunksRef.current = [];
+              setIsRecording(false);
+            };
+            
+            mediaRecorderRef.current = recorder;
+          }
         })
         .catch(err => {
           console.error("Camera error:", err);
@@ -73,6 +81,7 @@ export function Prompter({ text, onBack, useCamera }) {
       }
     };
   }, [useCamera]);
+
 
   // Start recording when play starts
   useEffect(() => {

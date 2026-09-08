@@ -23,7 +23,15 @@ export function ReloadPrompt() {
 
   useEffect(() => {
     if (needRefresh) {
-      // Fetch changelog.json to display dynamic update message
+      const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      
+      if (!isPWA) {
+        // Auto update for website visitors
+        updateServiceWorker(true);
+        return;
+      }
+
+      // Fetch changelog.json to display dynamic update message for PWA users
       fetch(`/changelog.json?t=${Date.now()}`)
         .then(res => res.json())
         .then(data => {
@@ -33,7 +41,7 @@ export function ReloadPrompt() {
         })
         .catch(err => console.error("Erreur de récupération du changelog", err));
     }
-  }, [needRefresh]);
+  }, [needRefresh, updateServiceWorker]);
 
   const close = () => {
     setOfflineReady(false);
