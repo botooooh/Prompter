@@ -39,30 +39,6 @@
   gap: 12px;
   width: 100%;
 }
-
-.camera-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: var(--border-radius-button);
-  background: var(--surface-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-}
-
-.camera-toggle-btn:hover {
-  transform: translateY(-2px);
-}
-
-.camera-toggle-btn.active {
-  background: #ff4444;
-  color: white;
-}
-
 .import-btn, .start-btn {
   display: flex;
   align-items: center;

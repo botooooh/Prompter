@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, Moon, Sun, Download, Trash2, Upload, Clipboard, Bold, Highlighter, Camera } from 'lucide-react';
+import { Play, Moon, Sun, Download, Trash2, Upload, Clipboard, Bold, Highlighter } from 'lucide-react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
@@ -8,7 +8,7 @@ import Highlight from '@tiptap/extension-highlight';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 
-export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall, useCamera, setUseCamera }) {
+export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -73,14 +73,6 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
             <input type="file" accept=".txt" onChange={handleImport} hidden />
           </label>
           
-          <button 
-            className={`camera-toggle-btn ${useCamera ? 'active' : ''}`} 
-            onClick={() => setUseCamera(!useCamera)}
-            title="Enregistrer avec la caméra"
-          >
-            <Camera size={20} />
-          </button>
-
           <button className="start-btn" onClick={onStart} disabled={!text || text === '<p></p>'} title="Démarrer le prompteur">
             <Play size={20} />
             Démarrer
