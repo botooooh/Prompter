@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, Moon, Sun } from 'lucide-react';
+import { Play, Moon, Sun, Download } from 'lucide-react';
 
-export function Editor({ text, setText, onStart, theme, toggleTheme }) {
+export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
   const handleImport = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -22,6 +22,11 @@ export function Editor({ text, setText, onStart, theme, toggleTheme }) {
           <h1>Prompteur</h1>
         </div>
         <div className="editor-actions">
+          {showInstallBtn && (
+            <button className="theme-btn glass-panel" onClick={onInstall} title="Installer l'application">
+              <Download size={20} />
+            </button>
+          )}
           <label className="import-btn glass-panel">
             Importer TXT
             <input type="file" accept=".txt" onChange={handleImport} hidden />

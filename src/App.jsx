@@ -56,16 +56,6 @@ function App() {
 
   return (
     <>
-      {showInstallBtn && (
-        <button 
-          className="install-btn glass-panel" 
-          onClick={handleInstallClick}
-          title="Installer l'application"
-        >
-          <Download size={20} />
-        </button>
-      )}
-      
       {mode === 'editor' ? (
         <Editor 
           text={text} 
@@ -73,6 +63,8 @@ function App() {
           onStart={() => setMode('prompter')}
           theme={theme}
           toggleTheme={toggleTheme}
+          showInstallBtn={showInstallBtn}
+          onInstall={handleInstallClick}
         />
       ) : (
         <Prompter 
