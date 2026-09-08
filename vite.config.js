@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['logo-arrondi.png'],
+      includeAssets: ['logo-arrondi.png', 'logo-192.png', 'logo-512.png'],
       manifest: {
         name: 'Prompteur',
         short_name: 'Prompteur',
@@ -17,14 +17,16 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: 'logo-arrondi.png',
+            src: 'logo-192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
           },
           {
-            src: 'logo-arrondi.png',
+            src: 'logo-512.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ]
       },
