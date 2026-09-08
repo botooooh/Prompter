@@ -17,6 +17,8 @@ export function ReloadPrompt() {
   });
 
   const [updateMessage, setUpdateMessage] = useState("Faites la mise à jour pour bénéficier des nouvelles fonctionnalités.");
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (needRefresh) {
@@ -35,6 +37,26 @@ export function ReloadPrompt() {
   const close = () => {
     setOfflineReady(false);
     setNeedRefresh(false);
+  };
+
+  const handleUpdateClick = () => {
+    setIsUpdating(true);
+    let currentProgress = 0;
+    
+    // Simulate download progress
+    const interval = setInterval(() => {
+      currentProgress += Math.floor(Math.random() * 15) + 5; // increment by 5-20%
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(interval);
+        setProgress(100);
+        setTimeout(() => {
+          updateServiceWorker(true);
+        }, 600); // Wait a bit before actual reload
+      } else {
+        setProgress(currentProgress);
+      }
+    }, 250);
   };
 
   if (!offlineReady && !needRefresh) {
@@ -58,13 +80,31 @@ export function ReloadPrompt() {
       
       <div className="reload-prompt-actions">
         {needRefresh && (
-          <button className="reload-prompt-btn reload-prompt-update" onClick={() => updateServiceWorker(true)}>
-            Faire
+          <button 
+            className={`reload-prompt-btn reload-prompt-update ${isUpdating ? 'updating' : ''}`} 
+            onClick={!isUpdating ? handleUpdateClick : undefined}
+          >
+            {!isUpdating ? (
+              "Faire"
+            ) : (
+              <>
+                <div className="progress-bg">
+                  <span className="progress-text-black">{progress === 100 ? "Ok" : `${progress}%`}</span>
+                </div>
+                <div className="progress-fill" style={{ width: `${progress}%` }}>
+                  <div className="progress-fill-inner">
+                    <span className="progress-text-white">{progress === 100 ? "Ok" : `${progress}%`}</span>
+                  </div>
+                </div>
+              </>
+            )}
           </button>
         )}
-        <button className="reload-prompt-btn reload-prompt-close" onClick={() => close()}>
-          Fermer
-        </button>
+        {!isUpdating && (
+          <button className="reload-prompt-btn reload-prompt-close" onClick={() => close()}>
+            Fermer
+          </button>
+        )}
       </div>
     </div>
   );

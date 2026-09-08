@@ -51,11 +51,64 @@
 .reload-prompt-update {
   background: var(--accent-color);
   color: white;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.reload-prompt-update:hover {
+.reload-prompt-update.updating {
+  background: white;
+  cursor: default;
+  padding: 0;
+  width: 90px; /* Fixed width to avoid jumping */
+  height: 38px;
+}
+
+.reload-prompt-update:hover:not(.updating) {
   background: var(--accent-hover);
   transform: translateY(-2px);
+}
+
+.progress-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.progress-text-black {
+  color: black;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-color);
+  z-index: 2;
+  overflow: hidden;
+  transition: width 0.3s ease-out;
+}
+
+.progress-fill-inner {
+  width: 90px; /* Must match the fixed width of .updating */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-text-white {
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .reload-prompt-close {
