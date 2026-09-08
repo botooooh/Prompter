@@ -18,6 +18,7 @@ export function ReloadPrompt() {
 
   const [updateMessage, setUpdateMessage] = useState("Faites la mise à jour pour bénéficier des nouvelles fonctionnalités.");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [updateFinished, setUpdateFinished] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -40,6 +41,11 @@ export function ReloadPrompt() {
   };
 
   const handleUpdateClick = () => {
+    if (updateFinished) {
+      updateServiceWorker(true);
+      return;
+    }
+    
     setIsUpdating(true);
     let currentProgress = 0;
     
@@ -50,9 +56,7 @@ export function ReloadPrompt() {
         currentProgress = 100;
         clearInterval(interval);
         setProgress(100);
-        setTimeout(() => {
-          updateServiceWorker(true);
-        }, 600); // Wait a bit before actual reload
+        setUpdateFinished(true);
       } else {
         setProgress(currentProgress);
       }
@@ -81,19 +85,21 @@ export function ReloadPrompt() {
       <div className="reload-prompt-actions">
         {needRefresh && (
           <button 
-            className={`reload-prompt-btn reload-prompt-update ${isUpdating ? 'updating' : ''}`} 
-            onClick={!isUpdating ? handleUpdateClick : undefined}
+            className={`reload-prompt-btn reload-prompt-update ${isUpdating && !updateFinished ? 'updating' : ''}`} 
+            onClick={(!isUpdating || updateFinished) ? handleUpdateClick : undefined}
           >
             {!isUpdating ? (
               "Faire"
+            ) : updateFinished ? (
+              "Ok"
             ) : (
               <>
                 <div className="progress-bg">
-                  <span className="progress-text-black">{progress === 100 ? "Ok" : `${progress}%`}</span>
+                  <span className="progress-text-black">{`${progress}%`}</span>
                 </div>
                 <div className="progress-fill" style={{ width: `${progress}%` }}>
                   <div className="progress-fill-inner">
-                    <span className="progress-text-white">{progress === 100 ? "Ok" : `${progress}%`}</span>
+                    <span className="progress-text-white">{`${progress}%`}</span>
                   </div>
                 </div>
               </>
