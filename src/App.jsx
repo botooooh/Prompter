@@ -12,6 +12,15 @@ function App() {
   const [theme, setTheme] = useLocalStorage('prompteur-theme', 'dark');
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showSplash, setShowSplash] = useState(true);
+  const [appReady, setAppReady] = useState(false);
+
+  const handleSplashComplete = () => {
+    setAppReady(true);
+    // Remove the splash screen from DOM after animation finishes (1.2s)
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 1200);
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -59,27 +68,33 @@ function App() {
 
   return (
     <>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <ReloadPrompt />
-      {mode === 'editor' ? (
-        <Editor 
-          text={text} 
+      {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
+      
+      <div className={`app-bubble-reveal ${appReady ? 'revealed' : ''}`}>
+        <ReloadPrompt />
+        {mode === 'editor' ? (
+          <Editor 
+            text={text} 
           setText={setText} 
           onStart={() => setMode('prompter')}
           theme={theme}
           toggleTheme={toggleTheme}
-          showInstallBtn={showInstallBtn}
-          onInstall={handleInstallClick}
-        />
-      ) : (
-        <Prompter 
-          text={text} 
-          onBack={() => setMode('editor')} 
-        />
-      )}
+            setText={setText} 
+            onStart={() => setMode('prompter')}
+            theme={theme}
+            toggleTheme={toggleTheme}
+            showInstallBtn={showInstallBtn}
+            onInstall={handleInstallClick}
+          />
+        ) : (
+          <Prompter 
+            text={text} 
+            onBack={() => setMode('editor')}          
+          />
+        )}
+      </div>
     </>
   );
 }
 
 export default App;
-

@@ -44,6 +44,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Bubble reveal animation */
+.app-bubble-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background-color: var(--bg-color);
+  clip-path: circle(0% at 50% 50%);
+  transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+.app-bubble-reveal.revealed {
+  clip-path: circle(150% at 50% 50%);
+  pointer-events: auto;
+}
+
 /* Glassmorphism utility */
 .glass-panel {
   background: var(--surface-color);

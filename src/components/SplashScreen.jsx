@@ -7,9 +7,7 @@ export function SplashScreen({ onComplete }) {
   const handleVideoEnd = () => {
     if (isFading) return;
     setIsFading(true);
-    setTimeout(() => {
-      onComplete();
-    }, 500);
+    onComplete();
   };
 
   const handleError = () => {
