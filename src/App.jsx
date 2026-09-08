@@ -3,6 +3,7 @@ import { Editor } from './components/Editor';
 import { Prompter } from './components/Prompter';
 import { ReloadPrompt } from './components/ReloadPrompt';
 import { SplashScreen } from './components/SplashScreen';
+import { InstallPopup } from './components/InstallPopup';
 import { useLocalStorage } from './hooks/useLocalStorage';
 
 
@@ -14,6 +15,7 @@ function App() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
   const [showSplash, setShowSplash] = useState(isMobile);
   const [appReady, setAppReady] = useState(!isMobile);
+  const [hasDismissedInstallPopup, setHasDismissedInstallPopup] = useLocalStorage('prompteur-install-popup-dismissed', false);
 
   const handleSplashComplete = () => {
     setAppReady(true);
@@ -46,10 +48,12 @@ function App() {
   };
 
   const isStandalone = () => {
+    if (typeof window === 'undefined') return false;
     return ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
   };
 
   const showInstallBtn = deferredPrompt || (isIOS() && !isStandalone());
+  const shouldShowInstallPopup = showInstallBtn && !hasDismissedInstallPopup && appReady;
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
@@ -90,6 +94,13 @@ function App() {
           />
         )}
       </div>
+
+      <InstallPopup 
+        show={shouldShowInstallPopup} 
+        isIOS={isIOS()} 
+        onInstall={handleInstallClick}
+        onClose={() => setHasDismissedInstallPopup(true)}
+      />
     </>
   );
 }
