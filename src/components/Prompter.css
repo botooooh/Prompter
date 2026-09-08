@@ -30,6 +30,7 @@
   word-wrap: break-word;
   white-space: pre-wrap;
   transition: all 0.3s ease;
+  letter-spacing: normal;
 }
 
 .prompter-text p {

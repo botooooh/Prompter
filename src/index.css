@@ -35,6 +35,7 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.05em;
   background-color: var(--bg-color);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -56,6 +57,7 @@ body {
 /* Base button */
 button {
   font-family: 'Inter', sans-serif;
+  letter-spacing: -0.05em;
   cursor: pointer;
   border: none;
   background: none;
