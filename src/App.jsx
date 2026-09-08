@@ -27,12 +27,26 @@ function App() {
     };
   }, []);
 
+  const isIOS = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  };
+
+  const isStandalone = () => {
+    return ('standalone' in window.navigator && window.navigator.standalone) || window.matchMedia('(display-mode: standalone)').matches;
+  };
+
+  const showInstallBtn = deferredPrompt || (isIOS() && !isStandalone());
+
   const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setDeferredPrompt(null);
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+      }
+    } else if (isIOS()) {
+      alert("Pour installer l'application sur votre appareil iOS : appuyez sur le bouton 'Partager' en bas de l'écran, puis sélectionnez 'Sur l'écran d'accueil'.");
     }
   };
 
@@ -42,7 +56,7 @@ function App() {
 
   return (
     <>
-      {deferredPrompt && (
+      {showInstallBtn && (
         <button 
           className="install-btn glass-panel" 
           onClick={handleInstallClick}
