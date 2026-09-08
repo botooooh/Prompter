@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Editor } from './components/Editor';
 import { Prompter } from './components/Prompter';
 import { ReloadPrompt } from './components/ReloadPrompt';
+import { SplashScreen } from './components/SplashScreen';
 import { useLocalStorage } from './hooks/useLocalStorage';
 
 
@@ -10,6 +11,7 @@ function App() {
   const [mode, setMode] = useState('editor'); // 'editor' | 'prompter'
   const [theme, setTheme] = useLocalStorage('prompteur-theme', 'dark');
   const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -57,6 +59,7 @@ function App() {
 
   return (
     <>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <ReloadPrompt />
       {mode === 'editor' ? (
         <Editor 
