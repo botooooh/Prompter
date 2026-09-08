@@ -23,31 +23,27 @@ export function Controls({
 }) {
   const [showSettings, setShowSettings] = React.useState(false);
 
+  // Speed cycling logic
+  const speedOptions = [50, 100, 150, 200, 300];
+  const getSpeedLabel = (s) => {
+    if (s <= 50) return "0.5x";
+    if (s <= 100) return "1x";
+    if (s <= 150) return "1.5x";
+    if (s <= 200) return "2x";
+    return "3x";
+  };
+  
+  const cycleSpeed = () => {
+    const currentIndex = speedOptions.findIndex(s => s >= speed);
+    const nextIndex = (currentIndex + 1) % speedOptions.length;
+    setSpeed(speedOptions[nextIndex]);
+  };
+
   return (
-    <div className="controls-container glass-panel">
-      {/* Top Main Row */}
-      <div className="controls-main">
-        <button className="icon-btn" onClick={onBack} title="Retour à l'éditeur">
-          <ArrowLeft size={24} />
-        </button>
-
-        <button className="play-btn" onClick={onPlayPause} title="Lecture/Pause (Espace)">
-          {isPlaying ? <Pause size={32} /> : <Play size={32} fill="currentColor" />}
-        </button>
-
-        <button 
-          className={`icon-btn ${showSettings ? 'active' : ''}`} 
-          onClick={() => setShowSettings(!showSettings)}
-          title="Paramètres"
-        >
-          <Settings2 size={24} />
-        </button>
-      </div>
-
-      {/* Expandable Settings */}
+    <div className="controls-container">
+      {/* Expandable Settings (Floating bubble) */}
       {showSettings && (
-        <div className="controls-settings">
-          
+        <div className="controls-settings glass-panel">
           <div className="setting-group">
             <label>Vitesse ({speed} px/s)</label>
             <input 
@@ -58,7 +54,7 @@ export function Controls({
               onChange={(e) => setSpeed(Number(e.target.value))}
             />
           </div>
-
+          
           <div className="setting-group">
             <label>Taille du texte ({fontSize}px)</label>
             <input 
@@ -84,11 +80,9 @@ export function Controls({
           <div className="setting-toggles">
             <button className={`toggle-btn ${mirrorX ? 'active' : ''}`} onClick={() => setMirrorX(!mirrorX)}>
               <FlipHorizontal size={20} />
-              Miroir H
             </button>
             <button className={`toggle-btn ${mirrorY ? 'active' : ''}`} onClick={() => setMirrorY(!mirrorY)}>
               <FlipVertical size={20} />
-              Miroir V
             </button>
             <button className={`toggle-btn ${alignment === 'left' ? 'active' : ''}`} onClick={() => setAlignment('left')}>
               <AlignLeft size={20} />
@@ -103,6 +97,27 @@ export function Controls({
           </div>
         </div>
       )}
+
+      {/* Main Pill Bar */}
+      <div className="controls-main glass-panel">
+        <button className="play-btn" onClick={onPlayPause} title="Lecture/Pause (Espace)">
+          {isPlaying ? <Pause size={20} /> : <Play size={20} fill="currentColor" />}
+          <span>{isPlaying ? "Pause" : "Démarrer"}</span>
+        </button>
+
+        <button 
+          className={`icon-btn ${showSettings ? 'active' : ''}`} 
+          onClick={() => setShowSettings(!showSettings)}
+          title="Paramètres"
+        >
+          <Settings2 size={20} />
+        </button>
+
+        <button className="icon-btn speed-btn" onClick={cycleSpeed} title="Vitesse">
+          <span className="speed-text">{getSpeedLabel(speed)}</span>
+        </button>
+      </div>
     </div>
   );
-}
+
+

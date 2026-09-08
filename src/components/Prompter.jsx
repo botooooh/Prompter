@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import './Prompter.css';
 import { useScroll } from '../hooks/useScroll';
 import { Controls } from './Controls';
+import { ArrowLeft } from 'lucide-react';
 
 export function Prompter({ text, onBack }) {
   const containerRef = useRef(null);
@@ -100,6 +101,11 @@ export function Prompter({ text, onBack }) {
       )}
 
       {showGuide && <div className="read-guide" />}
+
+      <button className={`back-btn-floating ${controlsVisible ? 'visible' : 'hidden'}`} onClick={onBack}>
+        <ArrowLeft size={20} />
+        Retour
+      </button>
 
       <div 
         ref={containerRef}
