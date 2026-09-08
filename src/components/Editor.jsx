@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './Editor.css';
-import { Play, Moon, Sun, Download } from 'lucide-react';
+import { Play, Moon, Sun, Download, Trash2 } from 'lucide-react';
 
 export function Editor({ text, setText, onStart, theme, toggleTheme, showInstallBtn, onInstall }) {
   const handleImport = (e) => {
@@ -41,6 +41,15 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
         </div>
       </div>
       <div className="editor-body glass-panel">
+        {text && (
+          <button 
+            className="clear-btn" 
+            onClick={() => setText('')}
+            title="Effacer tout le texte"
+          >
+            <Trash2 size={20} />
+          </button>
+        )}
         <textarea 
           value={text} 
           onChange={(e) => setText(e.target.value)}

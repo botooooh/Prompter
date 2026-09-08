@@ -72,6 +72,30 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+  position: relative;
+}
+
+.clear-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-button);
+  background: var(--surface-color);
+  color: #ff3b30;
+  border: var(--glass-border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.clear-btn:hover {
+  background: rgba(255, 59, 48, 0.1);
+  transform: translateY(-2px);
 }
 
 .editor-textarea {
