@@ -3,7 +3,7 @@ import { Editor } from './components/Editor';
 import { Prompter } from './components/Prompter';
 import { ReloadPrompt } from './components/ReloadPrompt';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { Download } from 'lucide-react';
+
 
 function App() {
   const [text, setText] = useLocalStorage('prompteur-text', '');

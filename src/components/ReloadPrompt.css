@@ -22,18 +22,21 @@
 }
 
 .reload-prompt-title {
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .reload-prompt-desc {
-  font-size: 0.9rem;
-  opacity: 0.8;
+  font-size: 0.75rem;
+  opacity: 0.7;
+  max-width: 200px;
 }
 
 .reload-prompt-actions {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 80px;
 }
 
 .reload-prompt-btn {
@@ -46,23 +49,23 @@
 }
 
 .reload-prompt-update {
-  background: var(--primary-color);
+  background: var(--accent-color);
   color: white;
 }
 
 .reload-prompt-update:hover {
-  filter: brightness(1.1);
+  background: var(--accent-hover);
   transform: translateY(-2px);
 }
 
 .reload-prompt-close {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
-  border: 1px solid rgba(128, 128, 128, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .reload-prompt-close:hover {
-  background: rgba(128, 128, 128, 0.1);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 @keyframes slideUp {

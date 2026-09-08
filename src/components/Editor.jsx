@@ -19,23 +19,20 @@ export function Editor({ text, setText, onStart, theme, toggleTheme, showInstall
       <div className="editor-header">
         <div className="brand">
           <img src="/logo-arrondi.png" alt="Prompteur Logo" className="logo" />
-          <h1>Prompteur</h1>
+          <h1>Prompter</h1>
         </div>
         <div className="editor-actions">
-          {showInstallBtn && (
-            <button className="theme-btn glass-panel" onClick={onInstall} title="Installer l'application">
-              <Download size={20} />
-            </button>
-          )}
-          <label className="import-btn glass-panel">
+          <button className="theme-btn" onClick={toggleTheme} title="Basculer le thème">
+            {theme === 'dark' ? <ThemeLight size={24} /> : <ThemeDark size={24} />}
+          </button>
+          
+          <label className="import-btn">
             <Upload size={20} />
-            Importer TXT
+            Importer
             <input type="file" accept=".txt" onChange={handleImport} hidden />
           </label>
-          <button className="theme-btn glass-panel" onClick={toggleTheme} title="Basculer le thème">
-            {theme === 'dark' ? <ThemeLight size={20} /> : <ThemeDark size={20} />}
-          </button>
-          <button className="start-btn glass-panel" onClick={onStart} disabled={!text.trim()}>
+          
+          <button className="start-btn" onClick={onStart} disabled={!text.trim()}>
             <Play size={20} />
             Démarrer
           </button>
